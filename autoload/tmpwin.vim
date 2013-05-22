@@ -27,8 +27,7 @@ function! s:call(dict, name, ...)
 endfunction
 
 function! s:winnr_by_bufnr(bufnr)
-    let last_winnr = winnr('$')
-    let winnr = last_winnr
+    let winnr = winnr('$')
     while winnr > 0
         if winbufnr(winnr) == a:bufnr
             return winnr
@@ -39,8 +38,7 @@ function! s:winnr_by_bufnr(bufnr)
 endfunction
 
 function! s:close_window_by_bufnrs(bufnrs)
-    let last_winnr = winnr('$')
-    let winnr = last_winnr
+    let winnr = winnr('$')
     while winnr > 0
         if index(a:bufnrs, winbufnr(winnr)) != -1
             execute winnr.'wincmd w'
@@ -98,8 +96,7 @@ function! tmpwin#close()
 endfunction
 
 function! tmpwin#exists()
-    let last_winnr = winnr('$')
-    let winnr = last_winnr
+    let winnr = winnr('$')
     while winnr > 0
         if index(s:opened_tmpbufs, winbufnr(winnr)) != -1
             return 1
