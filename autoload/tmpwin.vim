@@ -82,7 +82,7 @@ function! tmpwin#open(...)
     endif
 
     let original_winnr = s:winnr_by_bufnr(original_bufnr)
-    if original_winnr != -1 && ! get(settings, 'move_cursor', 0)
+    if original_winnr != -1 && ! get(settings, 'move_cursor', s:DEFAULT_SETTINGS['move_cursor'])
         " go back to original window
         execute original_winnr.'wincmd w'
     endif
