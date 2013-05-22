@@ -26,15 +26,19 @@ function! s:call(dict, name, ...)
     endif
 endfunction
 
-function! s:winnr_by_bufnr(bufnr)
-    let winnr = winnr('$')
+function! s:find_winnr_like(condition)
+    let winnr = winbufnr('$')
     while winnr > 0
-        if winbufnr(winnr) == a:bufnr
+        if eval(a:condition)
             return winnr
         endif
         let winnr = winnr - 1
     endwhile
     return -1
+endfunction
+
+function! s:winnr_by_bufnr(bufnr)
+    return s:find_winnr_like('winbufnr(winnr) == '.a:bufnr)
 endfunction
 
 function! s:close_window_by_bufnrs(bufnrs)
@@ -96,14 +100,8 @@ function! tmpwin#close()
 endfunction
 
 function! tmpwin#exists()
-    let winnr = winnr('$')
-    while winnr > 0
-        if index(s:opened_tmpbufs, winbufnr(winnr)) != -1
-            return 1
-        endif
-        let winnr = winnr - 1
-    endwhile
-    return 0
+    return s:find_winnr_like('index(s:opened_tmpbufs, winbufnr(winnr)) != -1')
+                \ == -1 ? 0 : 1
 endfunction
 
 function! tmpwin#toggle(...)
