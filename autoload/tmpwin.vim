@@ -21,6 +21,8 @@ let s:opened_tmpbufs = []
 function! s:call(dict, name, ...)
     if has_key(a:dict, a:name) && type(a:dict[a:name]) == 2 " 2 means funcref.
         call call(a:dict[a:name], a:000, {})
+    else
+        call call(s:DEFAULT_SETTINGS[a:name], a:000, {})
     endif
 endfunction
 
