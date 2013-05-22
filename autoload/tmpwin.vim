@@ -94,8 +94,20 @@ function! tmpwin#close()
     endif
 endfunction
 
+function! tmpwin#exists()
+    let last_winnr = winnr('$')
+    let winnr = last_winnr
+    while winnr > 0
+        if index(s:opened_tmpbufs, winbufnr(winnr)) != -1
+            return 1
+        endif
+        let winnr = winnr - 1
+    endwhile
+    return 0
+endfunction
+
 function! tmpwin#toggle(...)
-    if empty(s:opened_tmpbufs)
+    if ! tmpwin#exists()
         call call('tmpwin#open', a:000)
     else
         call tmpwin#close()
