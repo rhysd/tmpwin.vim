@@ -59,7 +59,6 @@ function! tmpwin#open(...)
     let [settings, commands] = type(a:1) == type({}) ?
                 \ [a:1, a:000[1:]] : [s:DEFAULT_SETTINGS, a:000]
 
-    " TODO 開く前の処理
     let original_bufnr = bufnr('%')
 
     " do command in a temporary window
@@ -73,9 +72,11 @@ function! tmpwin#open(...)
         endif
     endfor
 
-    " TODO 開く前と後で bufnr を確認して開いていなければ何もしない or エラー
+    if original_bufnr == bufnr('%')
+        echoerr "no new buffer has been opened."
+        return
+    endif
 
-    " TODO 開いた後の処理
     let original_winnr = s:winnr_by_bufnr(original_bufnr)
     if original_winnr != -1 && ! get(settings, 'move_cursor', 0)
         " go back to original window
