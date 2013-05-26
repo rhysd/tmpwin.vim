@@ -3,7 +3,7 @@ let s:DEFAULT_SETTINGS = {}
 let s:DEFAULT_SETTINGS['move_cursor'] = 0
 
 function! s:DEFAULT_SETTINGS.open_post()
-    
+
 endfunction
 
 function! s:DEFAULT_SETTINGS.open()
@@ -19,8 +19,19 @@ let s:opened_tmpbufs = []
 
 " helpers {{{
 function! s:call(dict, name, ...)
-    if has_key(a:dict, a:name) && type(a:dict[a:name]) == 2 " 2 means funcref.
-        call call(a:dict[a:name], a:000, {})
+    if has_key(a:dict, a:name)
+        let type = type(a:dict[a:name])
+        if type == 2 " 2 means funcref.
+            call call(a:dict[a:name], a:000, {})
+        elseif type == type('')
+            execute a:dict[a:name]
+        elseif type == type([])
+            for cmd in a:dict[a:name]
+                if type(cmd) == type('')
+                    execute cmd
+                endif
+            endfor
+        endif
     else
         call call(s:DEFAULT_SETTINGS[a:name], a:000, {})
     endif
@@ -54,6 +65,7 @@ endfunction
 " }}}
 
 " main {{{
+" TODO funcref 以外も指定できるようにする
 function! tmpwin#open(...)
     if a:0 < 1
         echoerr "tmpwin#open() requires at least one argument."
