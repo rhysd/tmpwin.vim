@@ -65,7 +65,6 @@ endfunction
 " }}}
 
 " main {{{
-" TODO funcref 以外も指定できるようにする
 function! tmpwin#open(...)
     if a:0 < 1
         echoerr "tmpwin#open() requires at least one argument."
@@ -77,13 +76,14 @@ function! tmpwin#open(...)
 
     let original_bufnr = bufnr('%')
 
-    " do command in a temporary window
     let string_type = type('')
     for cmd in commands
         if type(cmd) == string_type
+            " open temporary window
             call s:call(settings, 'open')
             execute cmd
             call add(s:opened_tmpbufs, bufnr('%'))
+            " do command in a temporary window
             call s:call(settings, 'open_post')
         endif
     endfor
