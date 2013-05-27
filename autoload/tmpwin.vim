@@ -27,10 +27,10 @@ function! s:call(dict, name, ...)
             execute a:dict[a:name]
         elseif type == type([])
             for cmd in a:dict[a:name]
-                if type(cmd) == type('')
-                    execute cmd
-                endif
+                execute cmd
             endfor
+        else
+            echoerr "invalid value type of key '".a:name."'."
         endif
     else
         call call(s:DEFAULT_SETTINGS[a:name], a:000, {})
