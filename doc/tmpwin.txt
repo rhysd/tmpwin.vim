@@ -17,6 +17,13 @@ License			|tmpwin.vim-license|
 ==============================================================================
 INTRODUCTION										 *tmpwin.vim-introduction*
 
+*tmpwin.vim* makes a temporary window for quick look some windows.
+|tmpwin.vim| provides a function to open and close a temporary window with only
+one key mapping. If you often do a process like 'open window -> confirm
+something -> close window', the process would be more easy with |tmpwin.vim|.
+The way to open a temporary window and a process after a temporary window is
+opened are customizable with string, list of string or funcref.
+
 
 
 ==============================================================================
